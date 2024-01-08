@@ -1,5 +1,5 @@
 import React from "react";
-import TimerComponent from "../components/Timer.component";
+import TimerGroupComponent from "../components/TimerGroup.component";
 
 interface TimerPageProps {}
 
@@ -7,7 +7,7 @@ const TimerPage: React.FC<TimerPageProps> = () => {
   return (
     <div>
       <h2>Timer</h2>
-        <TimerComponent initialTime={0} />
+      <TimerGroupComponent timers={[]} />
     </div>
   );
 };

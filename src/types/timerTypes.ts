@@ -1,4 +1,4 @@
 export interface Timer {
-    initialTime: number;
-    endTime: number;
+    totalTime: number;
+    isPlaying: boolean;
 }

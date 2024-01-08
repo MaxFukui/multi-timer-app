@@ -1,30 +1,50 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import TimerComponent from "./Timer.component";
 import { Timer } from "../types/timerTypes";
+import { TimerGroup } from "../types/timerGroup";
 
-interface TimerGroupComponentProps {
-  timers: Timer[];
-}
+const TimerGroupComponent: React.FC<TimerGroup> = () => {
+  const [timers, setTimers] = useState<Timer[]>([
+    { totalTime: 0, isPlaying: false },
+  ]);
+  const [playing, setPlaying] = useState(false);
 
-const TimerGroupComponent: React.FC<TimerGroupComponentProps> = ({
-  timers,
-}) => {
-	const [numTimers, SetNumTimers] = useState(1);
-	const [timers, setTimers] = useState<Timer[]>([{id: 1, initialTime: 0, endTime: 0}]);
+  const handleStart = () => {
+    setPlaying(true);
+  };
+
+  const handleStop = () => {
+    setPlaying(false);
+    setTimers(timers.map((timer) => ({ ...timer, isPlaying: false })));
+  };
+
+  const addTimer = () => {
+    setTimers([...timers, { totalTime: 60, isPlaying: false }]);
+  };
+
+  const removeTimer = (timerIndex: number) => {
+    setTimers(timers.filter((_, index) => index !== timerIndex));
+  };
+
   return (
     <div>
-      {timers.map((timer) => (
-        <TimerComponent
-          key={timer.id}
-          initialTime={timer.initialTime}
-          endTime={timer.endTime}
-        />
+      {timers.map((timer, index) => (
+        <div>
+          <TimerComponent
+            key={index}
+            totalTime={timer.totalTime}
+            isPlaying={timer.isPlaying}
+          />
+          <button onClick={() => removeTimer(index)}>Remove Timer</button>
+        </div>
       ))}
-			<div>
-				<button>Start</button>
-				<button>Pause</button>
-				<button>Stop</button>
-			</div>
+      <div>
+        <button onClick={handleStart}>Start</button>
+        <button onClick={handleStop}>Pause</button>
+        <button onClick={addTimer}>Add Timer</button>
+      </div>
     </div>
   );
 };
+
+export default TimerGroupComponent;
