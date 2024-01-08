@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Timer } from "../types/timerTypes";
 
-const TimerComponent: React.FC<Timer> = ({ totalTime, isPlaying }) => {
+const TimerComponent: React.FC<Timer> = ({
+  totalTime,
+  isPlaying,
+  onFinish,
+}) => {
   const [time, setTime] = useState(totalTime);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(isPlaying);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    if (playing && time > 0) {
+    if (isPlaying && time > 0) {
       interval = setInterval(() => {
-        setTime(time - 1);
+        console.log("time", time);
+        setTime((prevTime) => prevTime - 1);
       }, 1000);
+      console.log("interval", interval);
     } else if (time === 0) {
-      setPlaying(false);
+      clearInterval(interval!);
+      if (onFinish) onFinish();
     }
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [playing, time]);
-
-  const handlePlayPause = () => {
-    setPlaying(!playing);
-  };
+  }, [isPlaying, time]);
 
   return (
     <div>

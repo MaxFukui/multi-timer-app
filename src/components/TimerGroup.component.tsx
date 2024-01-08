@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimerComponent from "./Timer.component";
 import { Timer } from "../types/timerTypes";
 import { TimerGroup } from "../types/timerGroup";
 
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
-  const [timers, setTimers] = useState<Timer[]>([
-    { totalTime: 0, isPlaying: false },
-  ]);
+  const [timers, setTimers] = useState<Timer[]>([]);
   const [playing, setPlaying] = useState(false);
+  const [activeTimerIndex, setActiveTimerIndex] = useState(0);
 
   const handleStart = () => {
-    setPlaying(true);
+    if (timers.length > 0) {
+      // Reset all timers to not playing
+      setTimers(timers.map((timer) => ({ ...timer, isPlaying: false })));
+
+      // Set the first timer to play
+      setActiveTimerIndex(0);
+      setTimers(
+        timers.map((timer, index) => ({
+          ...timer,
+          isPlaying: index === 0,
+        }))
+      );
+    }
   };
 
   const handleStop = () => {
@@ -19,21 +30,40 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const addTimer = () => {
-    setTimers([...timers, { totalTime: 60, isPlaying: false }]);
+    setTimers([...timers, { totalTime: 5, isPlaying: false }]);
   };
 
   const removeTimer = (timerIndex: number) => {
     setTimers(timers.filter((_, index) => index !== timerIndex));
   };
 
+  const handleTimerFinish = () => {
+    if (activeTimerIndex < timers.length - 1) {
+      setActiveTimerIndex(activeTimerIndex + 1);
+    } else {
+      console.log("Finished");
+    }
+  };
+
+  useEffect(() => {
+    setTimers(
+      timers.map((timer, index) => ({
+        ...timer,
+        isPlaying: index === activeTimerIndex,
+      }))
+    );
+  }, [activeTimerIndex]);
+
   return (
     <div>
       {timers.map((timer, index) => (
-        <div>
+        <div key={index}>
           <TimerComponent
-            key={index}
             totalTime={timer.totalTime}
             isPlaying={timer.isPlaying}
+            onFinish={
+              index === activeTimerIndex ? handleTimerFinish : undefined
+            }
           />
           <button onClick={() => removeTimer(index)}>Remove Timer</button>
         </div>
