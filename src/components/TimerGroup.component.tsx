@@ -7,6 +7,11 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   const [timers, setTimers] = useState<Timer[]>([]);
   const [playing, setPlaying] = useState(false);
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
+  const [completedTimers, setCompletedTimers] = useState(0);
+
+  const handleTimerComplete = () => {
+    setCompletedTimers(completedTimers + 1);
+  };
 
   const handleStart = () => {
     if (timers.length > 0) {
@@ -15,6 +20,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
 
       // Set the first timer to play
       setActiveTimerIndex(0);
+      setPlaying(true);
       setTimers(
         timers.map((timer, index) => ({
           ...timer,
@@ -30,7 +36,10 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const addTimer = () => {
-    setTimers([...timers, { totalTime: 5, isPlaying: false }]);
+    setTimers([
+      ...timers,
+      { totalTime: 5, isPlaying: false, groupTimerIsPlaying: false },
+    ]);
   };
 
   const removeTimer = (timerIndex: number) => {
@@ -41,7 +50,8 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     if (activeTimerIndex < timers.length - 1) {
       setActiveTimerIndex(activeTimerIndex + 1);
     } else {
-      console.log("Finished");
+      setPlaying(false);
+      new Audio("wav/ended.mp3").play();
     }
   };
 
@@ -52,6 +62,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         isPlaying: index === activeTimerIndex,
       }))
     );
+    handleTimerComplete();
   }, [activeTimerIndex]);
 
   return (
@@ -64,8 +75,11 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
             onFinish={
               index === activeTimerIndex ? handleTimerFinish : undefined
             }
+            groupTimerIsPlaying={playing}
           />
-          <button onClick={() => removeTimer(index)}>Remove Timer</button>
+          <button onClick={() => removeTimer(index)} disabled={playing}>
+            Remove Timer
+          </button>
         </div>
       ))}
       <div>
