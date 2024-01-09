@@ -9,7 +9,6 @@ const TimerComponent: React.FC<Timer> = ({
   groupTimerIsPlaying,
 }) => {
   const [time, setTime] = useState(totalTime);
-  const [playing, setPlaying] = useState(isPlaying);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TimeSetterPropsTypes } from "../types/timeSetterPropsTypes";
 
 export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
@@ -48,6 +48,15 @@ export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
     }
     onAddTimer(calculateTotalTime());
   };
+
+  useEffect(() => {
+    if (isDisabled) {
+      setHours(calculateTimeFromSeconds(actualTimeSeconds).hours);
+      setMinutes(calculateTimeFromSeconds(actualTimeSeconds).minutes);
+      setSeconds(calculateTimeFromSeconds(actualTimeSeconds).seconds);
+    }
+  }, [actualTimeSeconds]);
+
   return (
     <div>
       <input
