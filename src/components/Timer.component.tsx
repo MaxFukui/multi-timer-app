@@ -12,7 +12,9 @@ const TimerComponent: React.FC<Timer> = ({
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    if (isPlaying && time > 0) {
+    console.log("isPlaying", isPlaying);
+    console.log("groupTimerIsPlaying", groupTimerIsPlaying);
+    if (isPlaying && time > 0 && groupTimerIsPlaying) {
       interval = setInterval(() => {
         console.log("time", time);
         setTime((prevTime) => prevTime - 1);
@@ -31,7 +33,7 @@ const TimerComponent: React.FC<Timer> = ({
         clearInterval(interval);
       }
     };
-  }, [isPlaying, time]);
+  }, [isPlaying, groupTimerIsPlaying, time]);
 
   const handleOnAddTimer = (totalTime: number) => {
     setTime(totalTime);
