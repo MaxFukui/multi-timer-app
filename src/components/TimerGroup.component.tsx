@@ -3,19 +3,27 @@ import TimerComponent from "./Timer.component";
 import { Timer } from "../types/timerTypes";
 import { TimerGroup } from "../types/timerGroup";
 
+interface TimerTransfer {
+  totalTime: number;
+  isPlaying: boolean;
+  groupTimerIsPlaying: boolean;
+  resetTriggered: boolean;
+}
+
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
-  const [timers, setTimers] = useState<Timer[]>([]);
+  const [timers, setTimers] = useState<TimerTransfer[]>([]);
   const [playing, setPlaying] = useState(false);
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
   const [completedTimers, setCompletedTimers] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
-  const [initialTimers, setInitialTimers] = useState<Timer[]>([]);
+  const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>([]);
+  const [resetTriggered, setResetTriggered] = useState(false);
 
   const handleTimerComplete = () => {
     setCompletedTimers(completedTimers + 1);
   };
 
-  const cloneTimers = (timersToClone: Timer[]) => {
+  const cloneTimers = (timersToClone: TimerTransfer[]) => {
     return timersToClone.map((timer) => ({ ...timer }));
   };
 
@@ -33,11 +41,12 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const handleReset = () => {
-    setTimers(cloneTimers(initialTimers));
+    setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
     setActiveTimerIndex(0);
     setCompletedTimers(0);
     setPlaying(false);
     setIsStarted(false);
+    setResetTriggered(!resetTriggered);
   };
 
   const handlePausePlay = () => {
@@ -60,10 +69,27 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     }
   };
 
+  const updateTimeHandler = (newTime: number, index: number) => {
+    console.log("updateTimeHandler");
+    const newTimers = timers.map((timer, timerIndex) => {
+      if (timerIndex === index) {
+        return { ...timer, totalTime: newTime };
+      }
+      return timer;
+    });
+    setTimers(newTimers);
+    console.log(newTimers);
+  };
+
   const addTimer = () => {
     const newTimers = [
       ...timers,
-      { totalTime: 5, isPlaying: false, groupTimerIsPlaying: false },
+      {
+        totalTime: 5,
+        isPlaying: false,
+        groupTimerIsPlaying: false,
+        resetTriggered: false,
+      },
     ];
     setTimers(newTimers);
   };
@@ -96,11 +122,14 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       {timers.map((timer, index) => (
         <div key={index}>
           <TimerComponent
+            id={index}
             totalTime={timer.totalTime}
             isPlaying={timer.isPlaying}
             onFinish={
               index === activeTimerIndex ? handleTimerFinish : undefined
             }
+            updateTime={updateTimeHandler}
+            resetTriggered={resetTriggered}
             groupTimerIsPlaying={playing}
           />
           <button onClick={() => removeTimer(index)} disabled={playing}>

@@ -7,21 +7,24 @@ const TimerComponent: React.FC<Timer> = ({
   isPlaying,
   onFinish,
   groupTimerIsPlaying,
+  resetTriggered,
+  updateTime,
+  id,
 }) => {
   const [time, setTime] = useState(totalTime);
+  const [initialTime, setInitialTime] = useState(totalTime);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    console.log("isPlaying", isPlaying);
-    console.log("groupTimerIsPlaying", groupTimerIsPlaying);
     if (isPlaying && time > 0 && groupTimerIsPlaying) {
       interval = setInterval(() => {
-        console.log("time", time);
         setTime((prevTime) => prevTime - 1);
       }, 1000);
-      console.log("interval", interval);
     } else if (time === 0) {
       clearInterval(interval!);
+      if (interval) {
+        clearInterval(interval);
+      }
       if (onFinish) {
         onFinish();
         return;
@@ -35,15 +38,24 @@ const TimerComponent: React.FC<Timer> = ({
     };
   }, [isPlaying, groupTimerIsPlaying, time]);
 
-  const handleOnAddTimer = (totalTime: number) => {
-    setTime(totalTime);
+  // const handleOnAddTimer = (totalTime: number) => {
+  //   setTime(totalTime);
+  // };
+
+  const handleUpdateTimer = (newTime: number) => {
+    setTime(newTime);
+    updateTime(newTime, id);
   };
+
+  useEffect(() => {
+    setTime(initialTime);
+  }, [resetTriggered]);
 
   return (
     <div>
       <h2>Timer: {time} seconds</h2>
       <TimeSetter
-        onAddTimer={handleOnAddTimer}
+        onAddTimer={handleUpdateTimer}
         actualTimeSeconds={time}
         isDisabled={groupTimerIsPlaying}
       />

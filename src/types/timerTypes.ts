@@ -3,4 +3,7 @@ export interface Timer {
     isPlaying: boolean;
     onFinish?: () => void;
     groupTimerIsPlaying: boolean;
+    resetTriggered: boolean;
+    updateTime: (totalTime: number, index: number) => void;
+    id: number;
 }
