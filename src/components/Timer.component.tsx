@@ -12,7 +12,6 @@ const TimerComponent: React.FC<Timer> = ({
   id,
 }) => {
   const [time, setTime] = useState(totalTime);
-  const [initialTime, setInitialTime] = useState(totalTime);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -38,17 +37,13 @@ const TimerComponent: React.FC<Timer> = ({
     };
   }, [isPlaying, groupTimerIsPlaying, time]);
 
-  // const handleOnAddTimer = (totalTime: number) => {
-  //   setTime(totalTime);
-  // };
-
   const handleUpdateTimer = (newTime: number) => {
     setTime(newTime);
     updateTime(newTime, id);
   };
 
   useEffect(() => {
-    setTime(initialTime);
+    setTime(totalTime);
   }, [resetTriggered]);
 
   return (

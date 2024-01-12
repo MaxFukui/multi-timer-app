@@ -46,7 +46,7 @@ export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
         setSeconds(newSeconds);
         break;
     }
-    const newTime = calculateTotalTime();
+    const newTime = newHours * 3600 + newMinutes * 60 + newSeconds;
     onAddTimer(newTime);
   };
 
