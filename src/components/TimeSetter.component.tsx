@@ -27,6 +27,12 @@ export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
     return hours * 3600 + minutes * 60 + seconds;
   };
 
+  useEffect(() => {
+    setHours(calculateTimeFromSeconds(actualTimeSeconds).hours);
+    setMinutes(calculateTimeFromSeconds(actualTimeSeconds).minutes);
+    setSeconds(calculateTimeFromSeconds(actualTimeSeconds).seconds);
+  }, [actualTimeSeconds]);
+
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     let newHours = hours,
