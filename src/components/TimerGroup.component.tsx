@@ -9,22 +9,22 @@ interface TimerTransfer {
   resetTriggered: boolean;
 }
 
+const getFromLocalStorage = () => {
+  const savedTimerState = localStorage.getItem("timers");
+  if (savedTimerState) {
+    return JSON.parse(savedTimerState);
+  }
+  return [];
+};
+
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
-  const [timers, setTimers] = useState<TimerTransfer[]>([]);
+  const [timers, setTimers] = useState<TimerTransfer[]>(getFromLocalStorage());
   const [playing, setPlaying] = useState(false);
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
   const [completedTimers, setCompletedTimers] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>([]);
   const [resetTriggered, setResetTriggered] = useState(false);
-
-  useEffect(() => {
-    const savedTimerState = localStorage.getItem("timers");
-    if (savedTimerState) {
-      const savedTimers = JSON.parse(savedTimerState);
-      setTimers(savedTimers);
-    }
-  }, []);
 
   const handleTimerComplete = () => {
     setCompletedTimers(completedTimers + 1);
@@ -125,6 +125,10 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     handleTimerComplete();
   }, [activeTimerIndex]);
 
+  const handleClear = () => {
+    setTimers([]);
+  };
+
   return (
     <div>
       {timers.map((timer, index) => (
@@ -154,6 +158,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         </button>
         <button onClick={handleReset}>Reset</button>
         <button onClick={addTimer}>Add Timer</button>
+        <button onClick={handleClear}>Clear Timers</button>
       </div>
     </div>
   );
