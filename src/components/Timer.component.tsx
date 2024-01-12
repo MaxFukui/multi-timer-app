@@ -12,6 +12,7 @@ const TimerComponent: React.FC<Timer> = ({
   id,
 }) => {
   const [time, setTime] = useState(totalTime);
+  const [timerName, setTimerName] = useState("Timer");
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -46,9 +47,18 @@ const TimerComponent: React.FC<Timer> = ({
     setTime(totalTime);
   }, [resetTriggered]);
 
+  const handleTimerNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTimerName(event.target.value);
+  };
+
   return (
     <div>
-      <h2>Timer: {time} seconds</h2>
+      <h2>
+        {timerName}: {time} seconds
+      </h2>
+      <input type="text" value={timerName} onChange={handleTimerNameChange} />
       <TimeSetter
         onAddTimer={handleUpdateTimer}
         actualTimeSeconds={time}

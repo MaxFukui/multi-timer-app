@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import TimerComponent from "./Timer.component";
-import { Timer } from "../types/timerTypes";
 import { TimerGroup } from "../types/timerGroup";
 
 interface TimerTransfer {
@@ -19,6 +18,14 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>([]);
   const [resetTriggered, setResetTriggered] = useState(false);
 
+  useEffect(() => {
+    const savedTimerState = localStorage.getItem("timers");
+    if (savedTimerState) {
+      const savedTimers = JSON.parse(savedTimerState);
+      setTimers(savedTimers);
+    }
+  }, []);
+
   const handleTimerComplete = () => {
     setCompletedTimers(completedTimers + 1);
   };
@@ -29,6 +36,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
 
   const handleStart = () => {
     setInitialTimers(cloneTimers(timers));
+    localStorage.setItem("timers", JSON.stringify(timers));
     if (timers.length > 0 && !isStarted) {
       setTimers(
         timers.map((timer, index) => {

@@ -23,10 +23,6 @@ export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
     calculateTimeFromSeconds(actualTimeSeconds).seconds
   );
 
-  const calculateTotalTime = () => {
-    return hours * 3600 + minutes * 60 + seconds;
-  };
-
   useEffect(() => {
     setHours(calculateTimeFromSeconds(actualTimeSeconds).hours);
     setMinutes(calculateTimeFromSeconds(actualTimeSeconds).minutes);
