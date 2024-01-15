@@ -10,7 +10,7 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 
 []- fix: after delete a timer, resuming it won't trigger the next timer
 []- feature: add timer's name into the local storage too
-[]- feature: add electron package
+[x]- feature: add electron package
 []- feature: focus on the actual timer
 
 
