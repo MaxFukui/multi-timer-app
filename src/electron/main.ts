@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
-import isDev from 'electron-is-dev';
-import * as path  from 'path';
+//The path was imported this way because CommonJS modules doesn't have a default export
+//So we need to use the * to import everything and then rename it to path
+import * as path from 'path';
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -10,6 +11,8 @@ function createWindow() {
             nodeIntegration: true,
         },
     });
+
+    const isDev = process.defaultApp || /[\\/]electron[\\/]/.test(process.execPath);
 
     win.loadURL(
         isDev
