@@ -1,7 +1,20 @@
-# Getting Started with Create React App
+# Project Chained-Timer creator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Working in progress
 
+### `npm start`
+
+To start the front-end application in [http://localhost:3000](http://localhost:3000)
+
+## Checklist
+
+[]- fix: after delete a timer, resuming it won't trigger the next timer
+[]- feature: add timer's name into the local storage too
+[]- feature: add electron package
+[]- feature: focus on the actual timer
+
+
+<!-- 
 ## Available Scripts
 
 In the project directory, you can run:
@@ -43,4 +56,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->
