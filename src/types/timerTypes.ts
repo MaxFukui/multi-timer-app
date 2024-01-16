@@ -8,3 +8,10 @@ export interface Timer {
     activeTimerIndex: number;
     id: number;
 }
+
+export interface TimerTransfer {
+  totalTime: number;
+  isPlaying: boolean;
+  groupTimerIsPlaying: boolean;
+  resetTriggered: boolean;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TimerComponent from "./Timer.component";
 import { TimerGroup } from "../types/timerGroup";
+import { TotalTime } from "./TotalTime.component";
 
 interface TimerTransfer {
   totalTime: number;
@@ -175,9 +176,18 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         <button onClick={handlePausePlay}>
           {playing ? "Pause" : "Resume"}
         </button>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={addTimer}>Add Timer</button>
-        <button onClick={handleClear}>Clear Timers</button>
+        <button onClick={handleReset} disabled={playing || !isStarted}>
+          Reset
+        </button>
+        <button onClick={addTimer} disabled={playing}>
+          Add Timer
+        </button>
+        <button onClick={handleClear} disabled={playing}>
+          Clear Timers
+        </button>
+      </div>
+      <div>
+        <TotalTime timers={timers} initialTimers={initialTimers} />
       </div>
     </div>
   );
