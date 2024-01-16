@@ -5,5 +5,6 @@ export interface Timer {
     groupTimerIsPlaying: boolean;
     resetTriggered: boolean;
     updateTime: (totalTime: number, index: number) => void;
+    activeTimerIndex: number;
     id: number;
 }

@@ -9,6 +9,7 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 ## Checklist
 
 []- fix: after delete a timer, resuming it won't trigger the next timer
+    - Problem: It's not changing the child components after taking the timer from array.
 []- feature: add timer's name into the local storage too
 [x]- feature: add electron package
 []- feature: focus on the actual timer

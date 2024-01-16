@@ -9,6 +9,7 @@ const TimerComponent: React.FC<Timer> = ({
   groupTimerIsPlaying,
   resetTriggered,
   updateTime,
+  activeTimerIndex,
   id,
 }) => {
   const [time, setTime] = useState(totalTime);
@@ -27,9 +28,9 @@ const TimerComponent: React.FC<Timer> = ({
       }
       if (onFinish) {
         onFinish();
+        new Audio("wav/teck.mp3").play();
         return;
       }
-      new Audio("wav/teck.mp3").play();
     }
     return () => {
       if (interval) {

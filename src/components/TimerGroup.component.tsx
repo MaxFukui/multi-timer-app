@@ -99,11 +99,22 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         resetTriggered: false,
       },
     ];
+    console.log(newTimers);
+    console.log(activeTimerIndex);
     setTimers(newTimers);
   };
 
   const removeTimer = (timerIndex: number) => {
-    setTimers(timers.filter((_, index) => index !== timerIndex));
+    // if (timerIndex < activeTimerIndex) {
+    //   setActiveTimerIndex(activeTimerIndex - 1);
+    // }
+    console.log("removed the index", timerIndex);
+    const newTimers = timers.filter((_, index) => {
+      return index !== timerIndex;
+    });
+    console.log(newTimers);
+    setResetTriggered(!resetTriggered);
+    setTimers(newTimers);
   };
 
   const handleTimerFinish = () => {
@@ -112,8 +123,14 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     } else {
       setPlaying(false);
       new Audio("wav/ended.mp3").play();
+      handleReset();
     }
   };
+
+  useEffect(() => {
+    console.log("timers", timers);
+    console.log("active index", activeTimerIndex);
+  }, [activeTimerIndex, playing]);
 
   useEffect(() => {
     setTimers(
@@ -127,6 +144,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
 
   const handleClear = () => {
     setTimers([]);
+    setActiveTimerIndex(0);
   };
 
   return (
@@ -140,6 +158,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
             onFinish={
               index === activeTimerIndex ? handleTimerFinish : undefined
             }
+            activeTimerIndex={activeTimerIndex}
             updateTime={updateTimeHandler}
             resetTriggered={resetTriggered}
             groupTimerIsPlaying={playing}
