@@ -26,8 +26,9 @@ const TimerComponent: React.FC<Timer> = ({
       if (interval) {
         clearInterval(interval);
       }
-      if (onFinish) {
+      if (onFinish && isPlaying) {
         onFinish();
+        console.log(isPlaying);
         new Audio("wav/teck.mp3").play();
         return;
       }

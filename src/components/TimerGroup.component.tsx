@@ -24,7 +24,9 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
   const [completedTimers, setCompletedTimers] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
-  const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>([]);
+  const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>(
+    getFromLocalStorage()
+  );
   const [resetTriggered, setResetTriggered] = useState(false);
 
   const handleTimerComplete = () => {
@@ -39,26 +41,16 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     setInitialTimers(cloneTimers(timers));
     localStorage.setItem("timers", JSON.stringify(timers));
     if (timers.length > 0 && !isStarted) {
-      setTimers(
-        timers.map((timer, index) => {
-          return { ...timer, isPlaying: index === 0 };
-        })
-      );
+      const newTimers = timers.map((timer, index) => {
+        return { ...timer, isPlaying: index === 0 };
+      });
+      setTimers(newTimers);
       setPlaying(true);
       setIsStarted(true);
     }
   };
-
-  // const handleReset = () => {
-  //   setPlaying(false);
-  //   setActiveTimerIndex(0);
-  //   setCompletedTimers(0);
-  //   setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
-  //   setIsStarted(false);
-  //   setResetTriggered(!resetTriggered);
-  // };
-
   const handleReset = () => {
+    setActiveTimerIndex(0);
     setResetTriggered((prev) => !prev);
   };
 
@@ -71,39 +63,15 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     }
   }, [resetTriggered]);
 
-  // const handleReset = () => {
-  //   setPlaying(false);
-  //   // Do not update other states here
-  // };
-  // // Update activeTimerIndex when 'playing' changes to false
-  // useEffect(() => {
-  //   if (!playing) {
-  //     setActiveTimerIndex(0);
-  //   }
-  // }, [playing]);
-
-  // // Update other states based on activeTimerIndex
-  // useEffect(() => {
-  //   if (activeTimerIndex === 0) {
-  //     setCompletedTimers(0);
-  //     setIsStarted(false);
-  //     setResetTriggered((prev) => !prev);
-
-  //     // Reset timers
-  //     setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
-  //   }
-  // }, [activeTimerIndex, initialTimers]);
-
   const handlePausePlay = () => {
     const nextPlayingState = !playing;
     setPlaying(nextPlayingState);
     if (nextPlayingState) {
-      setTimers(
-        timers.map((timer, index) => ({
-          ...timer,
-          isPlaying: index === activeTimerIndex,
-        }))
-      );
+      const newTimers = timers.map((timer, index) => ({
+        ...timer,
+        isPlaying: index === activeTimerIndex,
+      }));
+      setTimers(newTimers);
     } else {
       setTimers(
         timers.map((timer) => ({
@@ -136,9 +104,8 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         resetTriggered: false,
       },
     ];
-    console.log(newTimers);
-    console.log(activeTimerIndex);
     setTimers(newTimers);
+    setInitialTimers(newTimers);
   };
 
   const removeTimer = (timerIndex: number) => {
@@ -158,10 +125,10 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const handleTimerFinish = () => {
-    if (activeTimerIndex < timers.length - 1) {
+    if (activeTimerIndex < timers.length - 1 && playing && isStarted) {
       console.log("not last timer finished: ", activeTimerIndex);
       setActiveTimerIndex(activeTimerIndex + 1);
-    } else {
+    } else if (activeTimerIndex === timers.length - 1 && playing && isStarted) {
       setPlaying(false);
       new Audio("wav/ended.mp3").play();
       handleReset();
@@ -174,17 +141,17 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   }, [activeTimerIndex, playing]);
 
   useEffect(() => {
-    setTimers(
-      timers.map((timer, index) => ({
-        ...timer,
-        isPlaying: index === activeTimerIndex,
-      }))
-    );
+    const newTimers = timers.map((timer, index) => ({
+      ...timer,
+      isPlaying: index === activeTimerIndex,
+    }));
+    setTimers(newTimers);
     handleTimerComplete();
   }, [activeTimerIndex]);
 
   const handleClear = () => {
     setTimers([]);
+    setInitialTimers([]);
     setActiveTimerIndex(0);
   };
 
@@ -213,7 +180,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         <button onClick={handleStart} disabled={isStarted}>
           Start
         </button>
-        <button onClick={handlePausePlay}>
+        <button onClick={handlePausePlay} disabled={!isStarted}>
           {playing ? "Pause" : "Resume"}
         </button>
         <button onClick={handleReset} disabled={playing || !isStarted}>
