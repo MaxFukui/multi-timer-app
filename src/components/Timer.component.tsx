@@ -20,6 +20,7 @@ const TimerComponent: React.FC<Timer> = ({
     if (isPlaying && time > 0 && groupTimerIsPlaying) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
+        updateTime(time - 1, id);
       }, 1000);
     } else if (time === 0) {
       clearInterval(interval!);

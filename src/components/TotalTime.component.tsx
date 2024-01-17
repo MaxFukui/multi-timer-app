@@ -1,34 +1,30 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { TotalTimePropsTypes } from "../types/totalTimePropTypes";
 import { calculateTimeFromSeconds } from "../helpers/TimeHelpers";
-import { Timer, TimerTransfer } from "../types/timerTypes";
 
 export const TotalTime: React.FC<TotalTimePropsTypes> = ({
-  initialTimers,
-  timers,
+  totalTime,
+  timeLeft,
 }) => {
-  const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
-    let occurredTime = 0;
-    console.log("timers to calculate", timersToCalculate);
-    timersToCalculate.forEach((timer) => {
-      occurredTime += timer.totalTime;
-    });
-
-    console.log("timers to calculate", occurredTime);
-    return occurredTime;
-  };
-  const totalTime = useMemo(
-    () => calculateTotalTime(initialTimers),
-    [initialTimers]
-  );
-  const occurredTime = useMemo(() => calculateTotalTime(timers), [timers]);
-
   return (
     <div>
       <h2>Total Time:</h2>
       <p>{totalTime}</p>
-      <h2>Time Occurred:</h2>
-      <p>{occurredTime}</p>
+      <h2>Time Left</h2>
+      <span>
+        <div>
+          <p>Hours</p>
+          <p>{calculateTimeFromSeconds(timeLeft).hours}</p>
+        </div>
+        <div>
+          <p>Minutes</p>
+          <p>{calculateTimeFromSeconds(timeLeft).minutes}</p>
+        </div>
+        <div>
+          <p>Seconds</p>
+          <p>{calculateTimeFromSeconds(timeLeft).seconds}</p>
+        </div>
+      </span>
     </div>
   );
 };

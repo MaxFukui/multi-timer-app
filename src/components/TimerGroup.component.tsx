@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TimerComponent from "./Timer.component";
 import { TimerGroup } from "../types/timerGroup";
 import { TotalTime } from "./TotalTime.component";
@@ -16,6 +16,17 @@ const getFromLocalStorage = () => {
     return JSON.parse(savedTimerState);
   }
   return [];
+};
+
+const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
+  let occurredTime = 0;
+  console.log("timers to calculate", timersToCalculate);
+  timersToCalculate.forEach((timer) => {
+    occurredTime += timer.totalTime;
+  });
+
+  console.log("timers to calculate", occurredTime);
+  return occurredTime;
 };
 
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
@@ -51,6 +62,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
   const handleReset = () => {
     setActiveTimerIndex(0);
+    setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
     setResetTriggered((prev) => !prev);
   };
 
@@ -58,7 +70,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     if (!playing && isStarted) {
       setActiveTimerIndex(0);
       setCompletedTimers(0);
-      setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
       setIsStarted(false);
     }
   }, [resetTriggered]);
@@ -91,6 +102,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       return timer;
     });
     setTimers(newTimers);
+    console.log(1);
     console.log(newTimers);
   };
 
@@ -155,6 +167,11 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     setActiveTimerIndex(0);
   };
 
+  const totalTime = calculateTotalTime(initialTimers);
+  const timeLeft = useMemo(() => {
+    return calculateTotalTime(timers);
+  }, [timers, activeTimerIndex]);
+
   return (
     <div>
       {timers.map((timer, index) => (
@@ -194,7 +211,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         </button>
       </div>
       <div>
-        <TotalTime timers={timers} initialTimers={initialTimers} />
+        <TotalTime totalTime={totalTime} timeLeft={timeLeft} />
       </div>
     </div>
   );
