@@ -210,13 +210,21 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         </div>
       ))}
       <div>
-        <button onClick={handleStart} disabled={isStarted}>
+        <button
+          onClick={handleStart}
+          disabled={isStarted}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
           Start
         </button>
         <button onClick={handlePausePlay} disabled={!isStarted}>
           {playing ? "Pause" : "Resume"}
         </button>
-        <button onClick={handleReset} disabled={playing || !isStarted}>
+        <button
+          onClick={handleReset}
+          disabled={playing || !isStarted}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
           Reset
         </button>
         <button onClick={addTimer} disabled={playing}>
