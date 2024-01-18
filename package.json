@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start_remote": "HOST=192.168.100.183 react-scripts start",
+    "start_remote": "PORT=8783 HOST=192.168.100.183 react-scripts start",
     "start": "react-scripts start",
     "start_electron": "electron ./src/electron/main.js",
     "compile:electron": "tsc ./src/electron/main.ts --outDir ./src/electron",  

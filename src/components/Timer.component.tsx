@@ -11,9 +11,10 @@ const TimerComponent: React.FC<Timer> = ({
   updateTime,
   activeTimerIndex,
   id,
+  name,
 }) => {
   const [time, setTime] = useState(totalTime);
-  const [timerName, setTimerName] = useState("Timer");
+  const [timerName, setTimerName] = useState(name);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;

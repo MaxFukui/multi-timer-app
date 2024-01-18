@@ -8,6 +8,7 @@ interface TimerTransfer {
   isPlaying: boolean;
   groupTimerIsPlaying: boolean;
   resetTriggered: boolean;
+  name: string;
 }
 
 const getFromLocalStorage = () => {
@@ -114,6 +115,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         isPlaying: false,
         groupTimerIsPlaying: false,
         resetTriggered: false,
+        name: "timer",
       },
     ];
     setTimers(newTimers);
@@ -172,6 +174,8 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     return calculateTotalTime(timers);
   }, [timers, activeTimerIndex]);
 
+  const handleChangeTimerName = (name, id) => {};
+
   return (
     <div>
       {timers.map((timer, index) => (
@@ -187,6 +191,8 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
             updateTime={updateTimeHandler}
             resetTriggered={resetTriggered}
             groupTimerIsPlaying={playing}
+            name={timer.name}
+            handleChangeTimerName={handleChangeTimerName}
           />
           <button onClick={() => removeTimer(index)} disabled={playing}>
             Remove Timer

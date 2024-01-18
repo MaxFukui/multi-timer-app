@@ -7,6 +7,7 @@ export interface Timer {
     updateTime: (totalTime: number, index: number) => void;
     activeTimerIndex: number;
     id: number;
+    name: string;
 }
 
 export interface TimerTransfer {
