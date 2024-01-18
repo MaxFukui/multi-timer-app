@@ -8,11 +8,17 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 
 ## Checklist
 
-[x]- fix: after delete a timer, resuming it won't trigger the next timer
+[x] - fix: after delete a timer, resuming it won't trigger the next timer
     - Problem: It's not changing the child components after taking the timer from array.
-[]- feature: add timer's name into the local storage too
-[x]- feature: add electron package
-[]- feature: focus on the actual timer
+[X] - feature: add timer's name into the local storage too
+[x] - feature: add electron package
+
+### UI Development
+[] - Create the structure able to be customized
+[] - Create UI for TimerGroup
+[] - Create UI for Timer
+[] - Create UI for Timer Setter
+[] - feature: focus on the actual timer
 
 
 <!-- 
