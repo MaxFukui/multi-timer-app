@@ -8,6 +8,7 @@ export interface Timer {
     activeTimerIndex: number;
     id: number;
     name: string;
+    handleChangeTimerName: (name: string, index: number) => void;
 }
 
 export interface TimerTransfer {

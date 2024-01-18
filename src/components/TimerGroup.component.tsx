@@ -174,7 +174,16 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     return calculateTotalTime(timers);
   }, [timers, activeTimerIndex]);
 
-  const handleChangeTimerName = (name, id) => {};
+  const handleChangeTimerName = (name: string, id: number) => {
+    const newTimers = timers.map((timer, index) => {
+      if (index === id) {
+        return { ...timer, name };
+      }
+      return timer;
+    });
+    console.log("name changed: ", name);
+    setTimers(newTimers);
+  };
 
   return (
     <div>
