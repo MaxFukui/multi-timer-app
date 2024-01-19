@@ -67,6 +67,7 @@ const TimerComponent: React.FC<Timer> = ({
   return (
     <div>
       <div className="flex flex-row items-baseline ml-8">
+        <p className="text-white mr-2 text-sm">#{id + 1}</p>
         <h3 className="text-gray-100">Timer_name:</h3>
         <input
           type="text"

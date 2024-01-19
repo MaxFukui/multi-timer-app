@@ -198,14 +198,32 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   hover:bg-amber-400 transition duration-800 ease-in-out
   shadow-2xl
   `;
-  const controlButtomCardStyle = `fixed bottom-0 right-0 w-2/3
+
+  const controlButtomCardStyle = `fixed bottom-0 right-0 w-full
+  md:w-2/3
   bg-gray-500 p-2 rounded-tl-2xl shadow-2xl
+  flex flex-row justify-between
+  items-center
   `;
+
+  const timerFocusedStyle = `bg-gray-700 p-2 rounded m-5 p-5
+  hover:scale-110
+  md:w-[20rem]
+  rounded-4xl shadow-2xl
+  flex flex-col
+  border-2 border-amber-500
+  `;
+
   return (
-    <div className="flex max-md:flex-col flex-row bg-slate-600">
-      <div className="mb-20 max-md">
+    <div className="flex flex-col bg-slate-600 pb-20 justify-end">
+      <div className="mb-20 flex max-md:flex-col flex-row md:flex-wrap ">
         {timers.map((timer, index) => (
-          <div key={index} className={timerCardStyle}>
+          <div
+            key={index}
+            className={
+              index === activeTimerIndex ? timerFocusedStyle : timerCardStyle
+            }
+          >
             <TimerComponent
               id={index}
               totalTime={timer.totalTime}
@@ -233,44 +251,44 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         ))}
       </div>
       <div className={controlButtomCardStyle}>
-        <button
-          onClick={handleStart}
-          disabled={isStarted}
-          className={controlButtomStyle}
-        >
-          Start
-        </button>
-        <button
-          onClick={handlePausePlay}
-          disabled={!isStarted}
-          className={controlButtomStyle}
-        >
-          {playing ? "Pause" : "Resume"}
-        </button>
-        <button
-          onClick={handleReset}
-          disabled={playing || !isStarted}
-          className={controlButtomStyle}
-        >
-          Reset
-        </button>
-        <button
-          onClick={addTimer}
-          disabled={playing}
-          className={controlButtomStyle}
-        >
-          Add Timer
-        </button>
-        <button
-          onClick={handleClear}
-          disabled={playing}
-          className={controlButtomStyle}
-        >
-          Clear Timers
-        </button>
-      </div>
-      <div>
         <TotalTime totalTime={totalTime} timeLeft={timeLeft} />
+        <div className="md:w-2/3">
+          <button
+            onClick={handleStart}
+            disabled={isStarted}
+            className={controlButtomStyle}
+          >
+            Start
+          </button>
+          <button
+            onClick={handlePausePlay}
+            disabled={!isStarted}
+            className={controlButtomStyle}
+          >
+            {playing ? "Pause" : "Resume"}
+          </button>
+          <button
+            onClick={handleReset}
+            disabled={playing || !isStarted}
+            className={controlButtomStyle}
+          >
+            Reset
+          </button>
+          <button
+            onClick={addTimer}
+            disabled={playing}
+            className={controlButtomStyle}
+          >
+            Add Timer
+          </button>
+          <button
+            onClick={handleClear}
+            disabled={playing}
+            className={controlButtomStyle}
+          >
+            Clear Timers
+          </button>
+        </div>
       </div>
     </div>
   );

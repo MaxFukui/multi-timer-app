@@ -6,25 +6,34 @@ export const TotalTime: React.FC<TotalTimePropsTypes> = ({
   totalTime,
   timeLeft,
 }) => {
+  const totalTimerContainerStyle = ` bg-transparent pt-4 text-white  
+   text-sm
+   w-1/3
+   pl-2 pb-2
+   justify-around
+  `;
   return (
-    <div>
-      <h2>Total Time:</h2>
-      <p>{totalTime}</p>
-      <h2>Time Left</h2>
-      <span>
-        <div>
-          <p>Hours</p>
-          <p>{calculateTimeFromSeconds(timeLeft).hours}</p>
+    <div className={totalTimerContainerStyle}>
+      <div className="flex flex-row max-md:flex-col">
+        <h2>Total Time:</h2>
+        <p className="font-desg7">{totalTime}</p>
+      </div>
+      <div className="flex flex-row max-md:flex-col">
+        <h2 className="mr-2">Time Left:</h2>
+        <div className="flex flex-row">
+          <p className="font-desg7">
+            {calculateTimeFromSeconds(timeLeft).hours}
+          </p>
+          :
+          <p className="font-desg7">
+            {calculateTimeFromSeconds(timeLeft).minutes}
+          </p>
+          :
+          <p className="font-desg7">
+            {calculateTimeFromSeconds(timeLeft).seconds}
+          </p>
         </div>
-        <div>
-          <p>Minutes</p>
-          <p>{calculateTimeFromSeconds(timeLeft).minutes}</p>
-        </div>
-        <div>
-          <p>Seconds</p>
-          <p>{calculateTimeFromSeconds(timeLeft).seconds}</p>
-        </div>
-      </span>
+      </div>
     </div>
   );
 };

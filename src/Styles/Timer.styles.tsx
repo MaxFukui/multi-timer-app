@@ -1,7 +1,10 @@
 const commonButtonStyle = `text-white p-2 rounded-md bg-amber-500 
 `;
 const timerCardStyle = `bg-gray-700 p-2 rounded m-5 p-5 
-rounded-4xl shadow-2xl flex-col
+hover:scale-110
+md:w-[20rem]
+rounded-4xl shadow-2xl 
+flex flex-col
 `;
 const timerSetterInput = `rounded p-2 w-1/3 h-14 font-desg7
 text-center text-xl text-white bg-transparent 
