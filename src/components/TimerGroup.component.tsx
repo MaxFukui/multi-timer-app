@@ -215,8 +215,8 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   `;
 
   return (
-    <div className="flex flex-col bg-slate-600 pb-20 justify-end">
-      <div className="mb-20 flex max-md:flex-col flex-row md:flex-wrap ">
+    <div className="flex flex-col bg-slate-600 pb-20 ">
+      <div className="mb-20 flex max-md:flex-col flex-row md:flex-wrap justify-between">
         {timers.map((timer, index) => (
           <div
             key={index}
