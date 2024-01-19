@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Timer } from "../types/timerTypes";
 import { TimeSetter } from "./TimeSetter.component";
+import { inputColorDefault } from "../Styles/Timer.styles";
 
 const TimerComponent: React.FC<Timer> = ({
   totalTime,
@@ -58,12 +59,23 @@ const TimerComponent: React.FC<Timer> = ({
     handleChangeTimerName(newName, id);
   };
 
+  const inputNameDefault =
+    inputColorDefault +
+    ` text-white border-2 border-gray-600 w-2/3 rounded-md
+    pl-2 focus:border-gray-100 transition duration-500 ease-in-out
+    `;
   return (
     <div>
-      <h2>
-        {timerName}: {time} seconds
-      </h2>
-      <input type="text" value={timerName} onChange={handleNameOnChange} />
+      <div className="flex flex-row items-baseline ml-8">
+        <h3 className="text-gray-100">Timer_name:</h3>
+        <input
+          type="text"
+          className={inputNameDefault}
+          value={timerName}
+          onChange={handleNameOnChange}
+          maxLength={10}
+        />
+      </div>
       <TimeSetter
         onAddTimer={handleUpdateTimer}
         actualTimeSeconds={time}

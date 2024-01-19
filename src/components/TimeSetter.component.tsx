@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TimeSetterPropsTypes } from "../types/timeSetterPropsTypes";
+import { timerSetterInput } from "../Styles/Timer.styles";
 
 export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
   onAddTimer,
@@ -60,28 +61,40 @@ export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
     }
   }, [actualTimeSeconds]);
 
+  const defaultContainerStyle = `
+   flex bg-gray-700 text-white text-xl font-desg7 items-center 
+   rounded-xl
+   `;
   return (
-    <div>
+    <div className={defaultContainerStyle}>
       <input
         type="number"
         value={hours}
         name="hours"
         onChange={handleOnChange}
         disabled={isDisabled}
+        className={timerSetterInput}
+        maxLength={2}
       />
+      :
       <input
         type="number"
         value={minutes}
         name="minutes"
         onChange={handleOnChange}
         disabled={isDisabled}
+        maxLength={2}
+        className={timerSetterInput}
       />
+      :
       <input
         type="number"
         value={seconds}
         name="seconds"
         onChange={handleOnChange}
         disabled={isDisabled}
+        maxLength={2}
+        className={timerSetterInput}
       />
     </div>
   );

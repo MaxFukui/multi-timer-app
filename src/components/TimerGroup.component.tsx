@@ -2,6 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import TimerComponent from "./Timer.component";
 import { TimerGroup } from "../types/timerGroup";
 import { TotalTime } from "./TotalTime.component";
+import {
+  commonButtonStyle,
+  timerCardStyle,
+  controlButtomStyle,
+} from "../Styles/Timer.styles";
 
 interface TimerTransfer {
   totalTime: number;
@@ -186,51 +191,81 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     setTimers(newTimers);
   };
 
+  const removeTimerButtonStyle = `text-white p-2 rounded-md bg-amber-500
+  mt-4 disabled:opacity-50 disabled:cursor-not-allowed
+  hover:border-white border-transparent border-2
+  hover:scale-110
+  hover:bg-amber-400 transition duration-800 ease-in-out
+  shadow-2xl
+  `;
+  const controlButtomCardStyle = `fixed bottom-0 right-0 w-2/3
+  bg-gray-500 p-2 rounded-tl-2xl shadow-2xl
+  `;
   return (
-    <div>
-      {timers.map((timer, index) => (
-        <div key={index}>
-          <TimerComponent
-            id={index}
-            totalTime={timer.totalTime}
-            isPlaying={timer.isPlaying}
-            onFinish={
-              index === activeTimerIndex ? handleTimerFinish : undefined
-            }
-            activeTimerIndex={activeTimerIndex}
-            updateTime={updateTimeHandler}
-            resetTriggered={resetTriggered}
-            groupTimerIsPlaying={playing}
-            name={timer.name}
-            handleChangeTimerName={handleChangeTimerName}
-          />
-          <button onClick={() => removeTimer(index)} disabled={playing}>
-            Remove Timer
-          </button>
-        </div>
-      ))}
-      <div>
+    <div className="flex max-md:flex-col flex-row bg-slate-600">
+      <div className="mb-20 max-md">
+        {timers.map((timer, index) => (
+          <div key={index} className={timerCardStyle}>
+            <TimerComponent
+              id={index}
+              totalTime={timer.totalTime}
+              isPlaying={timer.isPlaying}
+              onFinish={
+                index === activeTimerIndex ? handleTimerFinish : undefined
+              }
+              activeTimerIndex={activeTimerIndex}
+              updateTime={updateTimeHandler}
+              resetTriggered={resetTriggered}
+              groupTimerIsPlaying={playing}
+              name={timer.name}
+              handleChangeTimerName={handleChangeTimerName}
+            />
+            <div className="flex justify-end">
+              <button
+                onClick={() => removeTimer(index)}
+                disabled={playing}
+                className={removeTimerButtonStyle}
+              >
+                Remove Timer
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className={controlButtomCardStyle}>
         <button
           onClick={handleStart}
           disabled={isStarted}
-          className="bg-blue-500 text-white p-2 rounded"
+          className={controlButtomStyle}
         >
           Start
         </button>
-        <button onClick={handlePausePlay} disabled={!isStarted}>
+        <button
+          onClick={handlePausePlay}
+          disabled={!isStarted}
+          className={controlButtomStyle}
+        >
           {playing ? "Pause" : "Resume"}
         </button>
         <button
           onClick={handleReset}
           disabled={playing || !isStarted}
-          className="bg-blue-500 text-white p-2 rounded"
+          className={controlButtomStyle}
         >
           Reset
         </button>
-        <button onClick={addTimer} disabled={playing}>
+        <button
+          onClick={addTimer}
+          disabled={playing}
+          className={controlButtomStyle}
+        >
           Add Timer
         </button>
-        <button onClick={handleClear} disabled={playing}>
+        <button
+          onClick={handleClear}
+          disabled={playing}
+          className={controlButtomStyle}
+        >
           Clear Timers
         </button>
       </div>
