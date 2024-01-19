@@ -17,10 +17,11 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 
 Basic UI
 [] - Create the structure able to be customized
-[] - Create UI for TimerGroup
-[] - Create UI for Timer
-[] - Create UI for Timer Setter
+[x] - Create UI for TimerGroup
+[x] - Create UI for Timer
+[x] - Create UI for Timer Setter
 [] - feature: focus on the actual timer
+[] - scroll towards the running timer automatically
 
 ### Database 
 [] - Initialize the database

@@ -10,7 +10,6 @@ export const TotalTime: React.FC<TotalTimePropsTypes> = ({
    text-sm
    w-1/3
    pl-2 pb-2
-   justify-around
   `;
   return (
     <div className={totalTimerContainerStyle}>
