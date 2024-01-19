@@ -26,6 +26,12 @@ Basic UI
 [] - Initialize the database
 [] - CRUD Operations
 
+
+### Logic 
+[] - Add settings the timers during while they already started
+    [] - Save Timer
+    [] - Reset timer until where the timer is
+
 <!-- 
 ## Available Scripts
 
