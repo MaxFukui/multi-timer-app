@@ -1,7 +1,7 @@
 export interface Timer {
     totalTime: number;
     isPlaying: boolean;
-    onFinish?: () => void;
+    onFinish?: () => boolean | void;
     groupTimerIsPlaying: boolean;
     resetTriggered: boolean;
     updateTime: (totalTime: number, index: number) => void;

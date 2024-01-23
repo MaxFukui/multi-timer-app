@@ -29,12 +29,16 @@ Basic UI
 
 
 ### Logic 
+> Timer component
 [] - Add settings the timers during while they already started
     [] - Save Timer
     [] - Reset timer until where the timer is
+[X] - Add new sound for middle timer ended
+[X] - When the timer is ended, just the right sound is triggered
+> Timer Page 
 [] - Redux, global state
-[] - Setting Page
-    [] - Set the sounds (Finish timer and finish all timers)
+> Setting Page 
+[] - Set the sounds (Finish timer and finish all timers)
 
 <!-- 
 ## Available Scripts

@@ -147,10 +147,12 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     if (activeTimerIndex < timers.length - 1 && playing && isStarted) {
       console.log("not last timer finished: ", activeTimerIndex);
       setActiveTimerIndex(activeTimerIndex + 1);
+      return false;
     } else if (activeTimerIndex === timers.length - 1 && playing && isStarted) {
       setPlaying(false);
       new Audio("wav/ended.mp3").play();
       handleReset();
+      return true;
     }
   };
 

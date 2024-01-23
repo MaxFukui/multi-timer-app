@@ -31,9 +31,13 @@ const TimerComponent: React.FC<Timer> = ({
         clearInterval(interval);
       }
       if (onFinish && isPlaying) {
-        onFinish();
+        const isLast = onFinish();
         console.log(isPlaying);
-        new Audio("wav/teck.mp3").play();
+        if (!isLast) {
+          new Audio(
+            "wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
+          ).play();
+        }
         return;
       }
     }
