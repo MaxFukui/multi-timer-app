@@ -5,7 +5,7 @@ interface TimerPageProps {}
 
 const TimerPage: React.FC<TimerPageProps> = () => {
   return (
-    <div className="bg-gray-700 top-0 left-0 h-full w-full">
+    <div className="bg-gray-600 h-full w-full top-0 left-0">
       <TimerGroupComponent timers={[]} />
     </div>
   );

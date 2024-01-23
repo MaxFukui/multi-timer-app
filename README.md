@@ -20,7 +20,7 @@ Basic UI
 [x] - Create UI for TimerGroup
 [x] - Create UI for Timer
 [x] - Create UI for Timer Setter
-[] - feature: focus on the actual timer
+[X] - feature: focus on the actual timer
 [] - scroll towards the running timer automatically
 
 ### Database 
@@ -32,6 +32,9 @@ Basic UI
 [] - Add settings the timers during while they already started
     [] - Save Timer
     [] - Reset timer until where the timer is
+[] - Redux, global state
+[] - Setting Page
+    [] - Set the sounds (Finish timer and finish all timers)
 
 <!-- 
 ## Available Scripts
