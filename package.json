@@ -1,7 +1,7 @@
 {
   "name": "multi-timer",
   "version": "0.1.0",
-  "main": "src/electron/main.js",
+  "main": "src/electron/electron.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -24,11 +24,14 @@
   "scripts": {
     "start_remote": "PORT=8783 HOST=192.168.100.183 react-scripts start",
     "start": "react-scripts start",
-    "start_electron": "electron ./src/electron/main.js",
-    "compile:electron": "tsc ./src/electron/main.ts --outDir ./src/electron",
-    "build": "react-scripts build",
+    "start_electron": "electron ./src/electron/electron.js",
+    "compile:electron": "tsc ./src/electron/electron.ts --outDir ./src/electron",
+    "build:react": "react-scripts build",
+    "build:electron": "tsc ./src/electron/electron.ts --outDir ./build && electron-builder",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pack_electron": "electron-builder --dir",
+    "electron_dist": "electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,20 @@
     ]
   },
   "devDependencies": {
-    "electron": "^28.1.3"
+    "electron": "^28.1.3",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.awesometimer.app",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }
