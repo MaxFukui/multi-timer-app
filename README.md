@@ -16,7 +16,6 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 ### UI Development
 
 Basic UI
-[] - Create the structure able to be customized
 [x] - Create UI for TimerGroup
 [x] - Create UI for Timer
 [x] - Create UI for Timer Setter
@@ -39,6 +38,7 @@ Basic UI
 [] - Redux, global state
 > Setting Page 
 [] - Set the sounds (Finish timer and finish all timers)
+[] - Create the structure able to be customized
 
 <!-- 
 ## Available Scripts

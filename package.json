@@ -33,6 +33,7 @@
     "pack_electron": "electron-builder --dir",
     "electron_dist": "electron-builder"
   },
+  "homepage": ".",
   "eslintConfig": {
     "extends": [
       "react-app",
