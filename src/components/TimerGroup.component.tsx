@@ -2,11 +2,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import TimerComponent from "./Timer.component";
 import { TimerGroup } from "../types/timerGroup";
 import { TotalTime } from "./TotalTime.component";
+import { useParams } from "react-router-dom";
 import {
   commonButtonStyle,
   timerCardStyle,
   controlButtomStyle,
 } from "../Styles/Timer.styles";
+import { setTimerGroups } from "../settings/TimerGroup.slice";
+import { useDispatch } from "react-redux";
 
 interface TimerTransfer {
   totalTime: number;
@@ -16,13 +19,20 @@ interface TimerTransfer {
   name: string;
 }
 
-const getFromLocalStorage = () => {
-  const savedTimerState = localStorage.getItem("timers");
+const getFromLocalStorage = (id: number) => {
+  const savedTimerState = localStorage.getItem("TimerGroups");
   if (savedTimerState) {
-    return JSON.parse(savedTimerState);
+    const parsedSavedTimerState = JSON.parse(savedTimerState);
+    if (parsedSavedTimerState[id]) {
+      return parsedSavedTimerState[id];
+    }
   }
   return [];
 };
+
+// const storeInGlobalState = (timers: TimerTransfer[]) => {
+//   dispatchEvent(setTimerGroups())
+// };
 
 const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
   let occurredTime = 0;
@@ -36,13 +46,17 @@ const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
 };
 
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
-  const [timers, setTimers] = useState<TimerTransfer[]>(getFromLocalStorage());
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const [timers, setTimers] = useState<TimerTransfer[]>(
+    getFromLocalStorage(Number(id))
+  );
   const [playing, setPlaying] = useState(false);
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
   const [completedTimers, setCompletedTimers] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>(
-    getFromLocalStorage()
+    getFromLocalStorage(Number(id))
   );
   const [resetTriggered, setResetTriggered] = useState(false);
 
@@ -54,9 +68,27 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     return timersToClone.map((timer) => ({ ...timer }));
   };
 
+  const handleSaveLocalStorage = (newTimers: TimerTransfer[], id: number) => {
+    const savedTimerState = localStorage.getItem("TimerGroups");
+    console.log("savedTimerState:", savedTimerState);
+    if (savedTimerState) {
+      const parsedTimerState = JSON.parse(savedTimerState);
+      parsedTimerState[id] = newTimers;
+      localStorage.setItem("TimerGroups", JSON.stringify(parsedTimerState));
+      setTimerGroups(parsedTimerState);
+      dispatch(setTimerGroups(parsedTimerState));
+      return;
+    }
+    localStorage.setItem("TimerGroups", JSON.stringify([newTimers]));
+    dispatch(setTimerGroups([newTimers]));
+    console.log("no timer groups in local storage");
+    return;
+  };
+
   const handleStart = () => {
     setInitialTimers(cloneTimers(timers));
-    localStorage.setItem("timers", JSON.stringify(timers));
+    // localStorage.setItem("timers", JSON.stringify(timers));
+    handleSaveLocalStorage(timers, Number(id));
     if (timers.length > 0 && !isStarted) {
       const newTimers = timers.map((timer, index) => {
         return { ...timer, isPlaying: index === 0 };
@@ -100,7 +132,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const updateTimeHandler = (newTime: number, index: number) => {
-    console.log("updateTimeHandler");
     const newTimers = timers.map((timer, timerIndex) => {
       if (timerIndex === index) {
         return { ...timer, totalTime: newTime };
@@ -108,8 +139,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       return timer;
     });
     setTimers(newTimers);
-    console.log(1);
-    console.log(newTimers);
   };
 
   const addTimer = () => {
@@ -128,7 +157,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   };
 
   const removeTimer = (timerIndex: number) => {
-    console.log("removed the index", timerIndex);
     if (timerIndex < activeTimerIndex) {
       setActiveTimerIndex(activeTimerIndex - 1);
     }
@@ -138,28 +166,23 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     const newTimers = timers.filter((_, index) => {
       return index !== timerIndex;
     });
-    console.log(newTimers);
     setResetTriggered(!resetTriggered);
     setTimers(newTimers);
   };
 
   const handleTimerFinish = () => {
     if (activeTimerIndex < timers.length - 1 && playing && isStarted) {
-      console.log("not last timer finished: ", activeTimerIndex);
       setActiveTimerIndex(activeTimerIndex + 1);
       return false;
     } else if (activeTimerIndex === timers.length - 1 && playing && isStarted) {
       setPlaying(false);
-      new Audio("wav/ended.mp3").play();
+      new Audio("/wav/ended.mp3").play();
       handleReset();
       return true;
     }
   };
 
-  useEffect(() => {
-    console.log("timers", timers);
-    console.log("active index", activeTimerIndex);
-  }, [activeTimerIndex, playing]);
+  useEffect(() => {}, [activeTimerIndex, playing]);
 
   useEffect(() => {
     const newTimers = timers.map((timer, index) => ({
@@ -189,7 +212,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       }
       return timer;
     });
-    console.log("name changed: ", name);
     setTimers(newTimers);
   };
 
