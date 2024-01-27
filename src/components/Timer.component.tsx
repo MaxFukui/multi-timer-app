@@ -32,10 +32,9 @@ const TimerComponent: React.FC<Timer> = ({
       }
       if (onFinish && isPlaying) {
         const isLast = onFinish();
-        console.log(isPlaying);
         if (!isLast) {
           new Audio(
-            "wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
+            "/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
           ).play();
         }
         return;
