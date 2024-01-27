@@ -22,6 +22,7 @@ Basic UI
 [x] - Create UI for Timer Setter
 [X] - feature: focus on the actual timer
 [] - scroll towards the running timer automatically
+[] - Add the title tab the active timer
 
 ### Database 
 [] - Initialize the database
