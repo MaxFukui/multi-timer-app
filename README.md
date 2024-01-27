@@ -1,7 +1,65 @@
-# Getting Started with Create React App
+# Project Chained-Timer creator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Working in progress
 
+### `npm start`
+
+To start the front-end application in [http://localhost:3000](http://localhost:3000)
+
+
+
+## Checklist
+
+[x] - fix: after delete a timer, resuming it won't trigger the next timer
+    - Problem: It's not changing the child components after taking the timer from array.
+[X] - feature: add timer's name into the local storage too
+[x] - feature: add electron package
+
+### UI
+
+Basic UI
+[x] - Create UI for TimerGroup
+[x] - Create UI for Timer
+[x] - Create UI for Timer Setter
+[X] - feature: focus on the actual timer
+[] - Show the active timer in the tab bar
+[] - scroll towards the running timer automatically
+[] - Add the title tab the active timer
+> All Timers Group
+[] - Create Cards for each timer
+
+### Database 
+[] - Initialize the database
+[] - CRUD Operations
+
+
+### Logic 
+> Store
+[X] - Set store to store the TimerGroup data
+> Timer component
+[] - Add settings the timers during while they already started
+    [] - Save Timer
+    [] - Reset timer until where the timer is
+[X] - Add new sound for middle timer ended
+[X] - When the timer is ended, just the right sound is triggered
+> Timer Page 
+[X] - Redux, global state
+> Timer Group
+[] - Change the logic
+    [] - Save button
+    [] - Edit button
+> Setting Page 
+[] - Set the sounds (Finish timer and finish all timers)
+[] - Create the structure able to be customized
+[] - Set route and logic
+    [] - Set logic to get the right Timer Groups
+    [] - Set a way to create new Timer Groups
+> All Timers Group 
+[X] - Initialize AllTimersGroupPage
+[X] - Gather all timers
+[X] - Get from localstorage
+
+<!-- 
 ## Available Scripts
 
 In the project directory, you can run:
@@ -43,4 +101,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->
