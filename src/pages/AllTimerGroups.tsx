@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setTimerGroups } from "../settings/TimerGroup.slice";
 import { TimerGroupTypeLocalStorage } from "../types/timerGroup";
-import AllTimerCard from "../components/AllTimer.card.component";
+import AllTimerCard from "../components/AllTimerCard.component";
 import TimerGroupComponent from "../components/TimerGroup.component";
 
 const getFromLocalStorage = () => {
