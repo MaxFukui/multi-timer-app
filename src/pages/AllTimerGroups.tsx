@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setTimerGroups } from "../settings/TimerGroup.slice";
+import { TimerGroupTypeLocalStorage } from "../types/timerGroup";
+import AllTimerCard from "../components/AllTimer.card.component";
+import TimerGroupComponent from "../components/TimerGroup.component";
 
 const getFromLocalStorage = () => {
   const savedTimerState = localStorage.getItem("TimerGroups");
@@ -21,7 +24,7 @@ const AllTimerGroups: React.FC = () => {
   const createNewTimer = () => {
     const newGroupId = timerGroups.length;
     const localStorageState = getFromLocalStorage();
-    localStorageState.push([]);
+    localStorageState.push({ name: "New Timer", timers: [] });
     localStorage.setItem("TimerGroups", JSON.stringify(localStorageState));
     dispatch(setTimerGroups(localStorageState));
     navigate(`/timer-groups/${newGroupId}`);
@@ -33,11 +36,15 @@ const AllTimerGroups: React.FC = () => {
     <div>
       <h2>All timer groups page</h2>
       <button onClick={createNewTimer}>Create a new Timer</button>
-      {timerGroups.map((timerGroup: any[], index: number) => (
-        <div key={index}>
-          Group {index + 1}: {timerGroup.length} timers
-        </div>
-      ))}
+      {timerGroups.map(
+        (timerGroup: TimerGroupTypeLocalStorage, index: number) => (
+          <AllTimerCard
+            idTimerGroup={index}
+            name={timerGroup.name}
+            timers={timerGroup.timers}
+          />
+        )
+      )}
     </div>
   );
 };
