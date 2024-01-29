@@ -26,11 +26,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-<<<<<<< HEAD
-    "start_remote": "HOST=192.168.100.183 PORT=8783 react-scripts start",
-=======
     "start_remote": "PORT=8783 HOST=192.168.100.183 react-scripts start",
->>>>>>> feat-creating-ui
     "start": "react-scripts start",
     "start_electron": "electron ./src/electron/electron.js",
     "compile:electron": "tsc ./src/electron/electron.ts --outDir ./src/electron",

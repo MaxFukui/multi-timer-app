@@ -10,6 +10,7 @@ import {
 } from "../Styles/Timer.styles";
 import { setTimerGroups } from "../settings/TimerGroup.slice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface TimerTransfer {
   totalTime: number;
@@ -27,12 +28,8 @@ const getFromLocalStorage = (id: number) => {
       return parsedSavedTimerState[id];
     }
   }
-  return [];
+  return { name: "New Timer", timers: [] };
 };
-
-// const storeInGlobalState = (timers: TimerTransfer[]) => {
-//   dispatchEvent(setTimerGroups())
-// };
 
 const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
   let occurredTime = 0;
@@ -48,17 +45,21 @@ const calculateTotalTime = (timersToCalculate: TimerTransfer[]) => {
 const TimerGroupComponent: React.FC<TimerGroup> = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [timers, setTimers] = useState<TimerTransfer[]>(
-    getFromLocalStorage(Number(id))
+    getFromLocalStorage(Number(id)).timers
   );
   const [playing, setPlaying] = useState(false);
   const [activeTimerIndex, setActiveTimerIndex] = useState(0);
   const [completedTimers, setCompletedTimers] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const [initialTimers, setInitialTimers] = useState<TimerTransfer[]>(
-    getFromLocalStorage(Number(id))
+    getFromLocalStorage(Number(id)).timers
   );
   const [resetTriggered, setResetTriggered] = useState(false);
+  const [timerGroupName, setTimerGroupName] = useState(
+    getFromLocalStorage(Number(id)).name
+  );
 
   const handleTimerComplete = () => {
     setCompletedTimers(completedTimers + 1);
@@ -73,14 +74,15 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
     console.log("savedTimerState:", savedTimerState);
     if (savedTimerState) {
       const parsedTimerState = JSON.parse(savedTimerState);
-      parsedTimerState[id] = newTimers;
+      parsedTimerState[id] = { name: timerGroupName, timers: newTimers };
       localStorage.setItem("TimerGroups", JSON.stringify(parsedTimerState));
       setTimerGroups(parsedTimerState);
       dispatch(setTimerGroups(parsedTimerState));
       return;
     }
-    localStorage.setItem("TimerGroups", JSON.stringify([newTimers]));
-    dispatch(setTimerGroups([newTimers]));
+    const newTimerGroup = { name: timerGroupName, timers: newTimers };
+    localStorage.setItem("TimerGroups", JSON.stringify([newTimerGroup]));
+    dispatch(setTimerGroups([newTimerGroup]));
     console.log("no timer groups in local storage");
     return;
   };
@@ -238,8 +240,23 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   border-2 border-amber-500
   `;
 
+  const handleChangeTimerGroupName = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTimerGroupName(event.target.value);
+  };
+
   return (
     <div className="flex flex-col bg-slate-600 pb-20 justify-center">
+      <div className="flex text-white mt-4 pl-6">
+        <h2 className="mr-4">Timer Name</h2>
+        <input
+          className="text-white border-2 border-gray-600 w-2/3 rounded-md bg-gray-700 pl-2 focus:border-gray-100 transition duration-500 ease-in-out"
+          type="text"
+          onChange={handleChangeTimerGroupName}
+          value={timerGroupName}
+        />
+      </div>
       <div className="mb-20 flex max-md:flex-col flex-row md:flex-wrap justify-center">
         {timers.map((timer, index) => (
           <div
@@ -311,6 +328,9 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
             className={controlButtomStyle}
           >
             Clear Timers
+          </button>
+          <button onClick={() => navigate("/")} className={controlButtomStyle}>
+            go back
           </button>
         </div>
       </div>
