@@ -15,6 +15,9 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 [X] - feature: add timer's name into the local storage too
 [x] - feature: add electron package
 
+### Bugs
+[] - Clear Timers are not cleaning at the first click
+
 ### UI
 
 Basic UI
@@ -61,3 +64,4 @@ Basic UI
 [X] - Gather all timers
 [X] - Get from localstorage
 [] - Click the timer
+[] - Delete Timer!

@@ -196,10 +196,10 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   }, [activeTimerIndex]);
 
   const handleClear = () => {
+    handleReset();
     setTimers([]);
     setInitialTimers([]);
     setActiveTimerIndex(0);
-    handleReset();
   };
 
   const totalTime = calculateTotalTime(initialTimers);

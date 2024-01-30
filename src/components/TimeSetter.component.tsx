@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import { TimeSetterPropsTypes } from "../types/timeSetterPropsTypes";
 import { timerSetterInput } from "../Styles/Timer.styles";
 
+export const calculateTimeFromSeconds = (totalTime: number) => {
+  const hours = Math.floor(totalTime / 3600);
+  const minutes = Math.floor((totalTime - hours * 3600) / 60);
+  const seconds = totalTime - hours * 3600 - minutes * 60;
+  return { hours, minutes, seconds };
+};
 export const TimeSetter: React.FC<TimeSetterPropsTypes> = ({
   onAddTimer,
   actualTimeSeconds,
   isDisabled,
 }) => {
-  const calculateTimeFromSeconds = (totalTime: number) => {
-    const hours = Math.floor(totalTime / 3600);
-    const minutes = Math.floor((totalTime - hours * 3600) / 60);
-    const seconds = totalTime - hours * 3600 - minutes * 60;
-    return { hours, minutes, seconds };
-  };
-
   const [hours, setHours] = useState(
     calculateTimeFromSeconds(actualTimeSeconds).hours
   );
