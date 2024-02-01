@@ -11,6 +11,10 @@ import {
 import { setTimerGroups } from "../settings/TimerGroup.slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+let path;
+if (typeof window !== "undefined" && window.require) {
+  path = window.require("path");
+}
 
 interface TimerTransfer {
   totalTime: number;
