@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Timer } from "../types/timerTypes";
 import { TimeSetter } from "./TimeSetter.component";
 import { inputColorDefault } from "../Styles/Timer.styles";
+import { playAudio } from "../helpers/AudioTrigger";
 
 const TimerComponent: React.FC<Timer> = ({
   totalTime,
@@ -33,9 +34,10 @@ const TimerComponent: React.FC<Timer> = ({
       if (onFinish && isPlaying) {
         const isLast = onFinish();
         if (!isLast) {
-          new Audio(
-            "/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
-          ).play();
+          // new Audio(
+          //   "/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
+          // ).play();
+          playAudio("/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3");
         }
         return;
       }
