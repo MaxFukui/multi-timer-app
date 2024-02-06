@@ -70,7 +70,7 @@ const AllTimerGroups: React.FC = () => {
         )}
       </div>
       <button onClick={createNewTimer} className={createNewTimerStyle}>
-        Create a new Timer
+        Create a new Timejr
       </button>
     </div>
   );

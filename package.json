@@ -62,6 +62,21 @@
   },
   "build": {
     "appId": "com.awesometimer.app",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "public/**/*",
+      "src/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "./public/wav/",
+        "to": "wav/",
+        "filter": "**/*"
+      },
+      "src/electron/preload.js"
+    ],
     "win": {
       "target": [
         "nsis"

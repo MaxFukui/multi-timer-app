@@ -11,6 +11,7 @@ import {
 import { setTimerGroups } from "../settings/TimerGroup.slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { playAudio } from "../helpers/AudioTrigger";
 
 interface TimerTransfer {
   totalTime: number;
@@ -71,20 +72,18 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
 
   const handleSaveLocalStorage = (newTimers: TimerTransfer[], id: number) => {
     const savedTimerState = localStorage.getItem("TimerGroups");
-    console.log("savedTimerState:", savedTimerState);
+    let updatedTimerGroups;
+
     if (savedTimerState) {
       const parsedTimerState = JSON.parse(savedTimerState);
-      parsedTimerState[id] = { name: timerGroupName, timers: newTimers };
-      localStorage.setItem("TimerGroups", JSON.stringify(parsedTimerState));
-      setTimerGroups(parsedTimerState);
-      dispatch(setTimerGroups(parsedTimerState));
-      return;
+      updatedTimerGroups = [...parsedTimerState];
+      updatedTimerGroups[id] = { name: timerGroupName, timers: newTimers };
+    } else {
+      updatedTimerGroups = [{ name: timerGroupName, timers: newTimers }];
     }
-    const newTimerGroup = { name: timerGroupName, timers: newTimers };
-    localStorage.setItem("TimerGroups", JSON.stringify([newTimerGroup]));
-    dispatch(setTimerGroups([newTimerGroup]));
-    console.log("no timer groups in local storage");
-    return;
+
+    localStorage.setItem("TimerGroups", JSON.stringify(updatedTimerGroups));
+    dispatch(setTimerGroups(updatedTimerGroups));
   };
 
   const handleStart = () => {
@@ -178,7 +177,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       return false;
     } else if (activeTimerIndex === timers.length - 1 && playing && isStarted) {
       setPlaying(false);
-      new Audio("/wav/ended.mp3").play();
+      playAudio("/wav/ended.mp3");
       handleReset();
       return true;
     }
