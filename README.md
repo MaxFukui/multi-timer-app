@@ -16,7 +16,8 @@ To start the front-end application in [http://localhost:3000](http://localhost:3
 [x] - feature: add electron package
 
 ### Bugs
-[] - Clear Timers are not cleaning at the first click
+[X] - Clear Timers are not cleaning at the first click
+[X] - Electron without audio files
 
 ### UI
 
@@ -37,6 +38,9 @@ Basic UI
 
 
 ### Logic 
+>Reset Actual Timer
+[] - Reset Actual Timer
+    [] - Bug: Timer is not changing the TimerSetter
 > Store
 [X] - Set store to store the TimerGroup data
 > Timer component

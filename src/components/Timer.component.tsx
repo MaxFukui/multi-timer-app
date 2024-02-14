@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Timer } from "../types/timerTypes";
 import { TimeSetter } from "./TimeSetter.component";
-import { inputColorDefault } from "../Styles/Timer.styles";
+import { inputColorDefault, resetButtonStyle } from "../Styles/Timer.styles";
 import { playAudio } from "../helpers/AudioTrigger";
 
 const TimerComponent: React.FC<Timer> = ({
   totalTime,
+  initalTotalTime,
   isPlaying,
   onFinish,
   groupTimerIsPlaying,
@@ -14,6 +15,7 @@ const TimerComponent: React.FC<Timer> = ({
   activeTimerIndex,
   id,
   name,
+  handleResetTimer,
   handleChangeTimerName,
 }) => {
   const [time, setTime] = useState(totalTime);
@@ -34,9 +36,6 @@ const TimerComponent: React.FC<Timer> = ({
       if (onFinish && isPlaying) {
         const isLast = onFinish();
         if (!isLast) {
-          // new Audio(
-          //   "/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3"
-          // ).play();
           playAudio("/wav/deep-meditation-bell-hit-throat-chakra-5-186971.mp3");
         }
         return;
@@ -69,8 +68,15 @@ const TimerComponent: React.FC<Timer> = ({
     ` text-white border-2 border-gray-600 w-2/3 rounded-md
     pl-2 focus:border-gray-100 transition duration-500 ease-in-out
     `;
+
+  const handleResetThisTimer = (id: number) => {
+    updateTime(initalTotalTime, id);
+    setTime(initalTotalTime);
+    handleResetTimer(id);
+  };
+
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="flex flex-row items-baseline ml-8">
         <p className="text-white mr-2 text-sm">#{id + 1}</p>
         <h3 className="text-gray-100">Timer_name:</h3>
@@ -87,6 +93,16 @@ const TimerComponent: React.FC<Timer> = ({
         actualTimeSeconds={time}
         isDisabled={groupTimerIsPlaying}
       />
+      {activeTimerIndex === id ? (
+        <button
+          className={resetButtonStyle}
+          onClick={handleResetThisTimer.bind(null, id)}
+        >
+          Reset
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

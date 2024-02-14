@@ -21,4 +21,17 @@ disabled:opacity-50 disabled:cursor-not-allowed
 shadow-2xl
 `;
 
+export const resetButtonStyle = `bg-red-500 p-1.5 rounded-md m-1
+w-1/4 text-xs
+hover:bg-red-400 transition duration-500 ease-in-out
+text-white
+hover:scale-110
+disabled:opacity-50 disabled:cursor-not-allowed
+shadow-2xl
+left-1/2
+self-end
+border-2 border-transparent
+hover:border-red-200
+`;
+
 export { commonButtonStyle, timerCardStyle, timerSetterInput };

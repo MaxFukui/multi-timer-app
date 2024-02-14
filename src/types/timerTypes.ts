@@ -9,6 +9,8 @@ export interface Timer {
     id: number;
     name: string;
     handleChangeTimerName: (name: string, index: number) => void;
+    handleResetTimer: (index: number) => void;
+    initalTotalTime: number;
 }
 
 export interface TimerTransfer {

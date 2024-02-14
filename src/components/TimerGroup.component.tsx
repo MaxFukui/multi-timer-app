@@ -19,6 +19,7 @@ interface TimerTransfer {
   groupTimerIsPlaying: boolean;
   resetTriggered: boolean;
   name: string;
+  initialTotalTime: number;
 }
 
 const getFromLocalStorage = (id: number) => {
@@ -88,7 +89,6 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
 
   const handleStart = () => {
     setInitialTimers(cloneTimers(timers));
-    // localStorage.setItem("timers", JSON.stringify(timers));
     handleSaveLocalStorage(timers, Number(id));
     if (timers.length > 0 && !isStarted) {
       const newTimers = timers.map((timer, index) => {
@@ -99,10 +99,21 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
       setIsStarted(true);
     }
   };
+
   const handleReset = () => {
     setActiveTimerIndex(0);
     setTimers(initialTimers.map((timer) => ({ ...timer, isPlaying: false })));
     setResetTriggered((prev) => !prev);
+  };
+
+  const handleResetTimer = (id: number) => {
+    const newTimers = timers.map((timer, index) => {
+      if (index === id) {
+        return { ...timer, totalTime: initialTimers[id].totalTime };
+      }
+      return timer;
+    });
+    setTimers(newTimers);
   };
 
   useEffect(() => {
@@ -135,7 +146,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
   const updateTimeHandler = (newTime: number, index: number) => {
     const newTimers = timers.map((timer, timerIndex) => {
       if (timerIndex === index) {
-        return { ...timer, totalTime: newTime };
+        return { ...timer, totalTime: newTime, initialTotalTime: newTime };
       }
       return timer;
     });
@@ -151,6 +162,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
         groupTimerIsPlaying: false,
         resetTriggered: false,
         name: "timer",
+        initialTotalTime: 5,
       },
     ];
     setTimers(newTimers);
@@ -267,6 +279,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
             <TimerComponent
               id={index}
               totalTime={timer.totalTime}
+              initalTotalTime={timer.initialTotalTime}
               isPlaying={timer.isPlaying}
               onFinish={
                 index === activeTimerIndex ? handleTimerFinish : undefined
@@ -277,6 +290,7 @@ const TimerGroupComponent: React.FC<TimerGroup> = () => {
               groupTimerIsPlaying={playing}
               name={timer.name}
               handleChangeTimerName={handleChangeTimerName}
+              handleResetTimer={handleResetTimer}
             />
             <div className="flex justify-end">
               <button
